@@ -15,6 +15,7 @@ class SpecialAllPagesExtended extends SpecialAllPages {
 	 * @param string $par
 	 */
 	public function execute( $par ) {
+		$this->getOutput()->addModules( 'ext.excludepages.allpages.form' );
 		$defaultHideSubpages = true;
 		if ( $this->getConfig()->has( 'HideSubpages' ) ) {
 			$defaultHideSubpages = $this->getConfig()->get( 'HideSubpages' );
@@ -254,6 +255,7 @@ class SpecialAllPagesExtended extends SpecialAllPages {
 				'type' => 'check',
 				'name' => 'hideredirects',
 				'id' => 'hidredirects',
+				'cssclass' => 'inlineBlock ',
 				'label-message' => 'allpages-hide-redirects',
 				'value' => $hideRedirects,
 			],
@@ -262,6 +264,7 @@ class SpecialAllPagesExtended extends SpecialAllPages {
 				'name' => 'hidesubpages',
 				'id' => 'hidesubpages',
 				'label-message' => 'allpages-exclude-subpages-checkbox-label',
+				'cssclass' => 'inlineBlock marginLeft15',
 				'value' => $this->hideSubpages,
 				'default' => $this->hideSubpages
 			],

@@ -17,6 +17,17 @@
 	"AutoloadNamespaces": {
 		"ExcludeSubpages\\": "src/"
 	},
+	"ResourceModules": {
+		"ext.excludepages.allpages.form": {
+			"styles": [
+				"allpages.form.less"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "ExcludeSubpages/resources"
+	},
 	"Hooks": {
 		"SpecialPageBeforeExecute": "\\ExcludeSubpages\\Hook\\SpecialPageBeforeExecute\\ModifySpecialAllPages::callback"
 	},
