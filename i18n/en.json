@@ -1,0 +1,4 @@
+{
+	"excludesubpages-desc": "Extends default Special:AllPages with `exclude subpages` filter",
+	"allpages-exclude-subpages-checkbox-label": "Hide subpages"
+}

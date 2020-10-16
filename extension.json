@@ -1,0 +1,30 @@
+{
+	"name": "ExcludeSubpages",
+	"version": "1.0",
+	"license-name": "MIT",
+	"author": [
+		"Oleksandr Pinchuk <intracomof@gmail.com>"
+	],
+	"url": "https://www.upwork.com/freelancers/~01f6e6dc301aafbf15",
+	"descriptionmsg": "excludesubpages-desc",
+	"type": "extension",
+	"requires": {
+		"MediaWiki": ">= 1.35.0"
+	},
+	"MessagesDirs": {
+		"ExcludeSubpages": "i18n"
+	},
+	"AutoloadNamespaces": {
+		"ExcludeSubpages\\": "src/"
+	},
+	"Hooks": {
+		"SpecialPageBeforeExecute": "\\ExcludeSubpages\\Hook\\SpecialPageBeforeExecute\\ModifySpecialAllPages::callback"
+	},
+	"config_prefix": "wg",
+	"config": {
+		"HideSubpages": {
+			"value": true
+		}
+	},
+	"manifest_version": 2
+}
