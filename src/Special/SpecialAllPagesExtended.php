@@ -88,6 +88,7 @@ class SpecialAllPagesExtended extends SpecialAllPages {
 				while ( ( $n < $this->maxPerPage ) && ( $s = $res->fetchObject() ) ) {
 					$t = Title::newFromRow( $s );
 					if ( $t ) {
+						wfDebug( 'AllPagesDebug / ' . $t->getPrefixedText() . ':isSubpage = ' . (int) $t->isSubpage() );
 						if ( $this->hideSubpages && $t->isSubpage() ) {
 							continue;
 						}
