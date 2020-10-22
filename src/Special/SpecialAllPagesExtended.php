@@ -71,7 +71,7 @@ class SpecialAllPagesExtended extends SpecialAllPages {
 	 * @param string $to List all pages to this name
 	 * @param bool $hideredirects Don't show redirects (default false)
 	 */
-	private function showToplevel(
+	public function showToplevel(
 		$namespace = NS_MAIN, $from = '', $to = '', $hideredirects = false
 	) {
 		$from = Title::makeTitleSafe( $namespace, $from );
@@ -88,7 +88,7 @@ class SpecialAllPagesExtended extends SpecialAllPages {
 	 * @param string|false $to List all pages to this name (default false)
 	 * @param bool $hideredirects Don't show redirects (default false)
 	 */
-	private function showChunk( $namespace = NS_MAIN, $from = false, $to = false, $hideredirects = false ) {
+	public function showChunk( $namespace = NS_MAIN, $from = false, $to = false, $hideredirects = false ) {
 		$output = $this->getOutput();
 
 		$fromList = $this->getNamespaceKeyAndText( $namespace, $from );
