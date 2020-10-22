@@ -30,7 +30,56 @@ class SpecialAllPagesExtended extends SpecialAllPages {
 		if ( $this->getRequest()->getInt( 'namespace', -100 ) >= 0) {
 			$this->hideSubpages = $this->getRequest()->getBool( 'hidesubpages', 0 );
 		}
-		parent::execute( $par );
+		$request = $this->getRequest();
+		$out = $this->getOutput();
+
+		$this->setHeaders();
+		$this->outputHeader();
+		$out->allowClickjacking();
+
+		# GET values
+		$from = $request->getVal( 'from', null );
+		$to = $request->getVal( 'to', null );
+		$namespace = $request->getInt( 'namespace' );
+
+		$miserMode = (bool)$this->getConfig()->get( 'MiserMode' );
+
+		// Redirects filter is disabled in MiserMode
+		$hideredirects = $request->getBool( 'hideredirects', false ) && !$miserMode;
+
+		$namespaces = $this->getLanguage()->getNamespaces();
+
+		$out->setPageTitle(
+			( $namespace > 0 && array_key_exists( $namespace, $namespaces ) ) ?
+				$this->msg( 'allinnamespace', str_replace( '_', ' ', $namespaces[$namespace] ) ) :
+				$this->msg( 'allarticles' )
+		);
+		$out->addModuleStyles( 'mediawiki.special' );
+
+		if ( $par !== null ) {
+			$this->showChunk( $namespace, $par, $to, $hideredirects );
+		} elseif ( $from !== null && $to === null ) {
+			$this->showChunk( $namespace, $from, $to, $hideredirects );
+		} else {
+			$this->showToplevel( $namespace, $from, $to, $hideredirects );
+		}
+	}
+
+	/**
+	 * @param int $namespace (default NS_MAIN)
+	 * @param string $from List all pages from this name
+	 * @param string $to List all pages to this name
+	 * @param bool $hideredirects Don't show redirects (default false)
+	 */
+	private function showToplevel(
+		$namespace = NS_MAIN, $from = '', $to = '', $hideredirects = false
+	) {
+		$from = Title::makeTitleSafe( $namespace, $from );
+		$to = Title::makeTitleSafe( $namespace, $to );
+		$from = ( $from && $from->isLocal() ) ? $from->getDBkey() : null;
+		$to = ( $to && $to->isLocal() ) ? $to->getDBkey() : null;
+
+		$this->showChunk( $namespace, $from, $to, $hideredirects );
 	}
 
 	/**
@@ -39,7 +88,7 @@ class SpecialAllPagesExtended extends SpecialAllPages {
 	 * @param string|false $to List all pages to this name (default false)
 	 * @param bool $hideredirects Don't show redirects (default false)
 	 */
-	function showChunk( $namespace = NS_MAIN, $from = false, $to = false, $hideredirects = false ) {
+	private function showChunk( $namespace = NS_MAIN, $from = false, $to = false, $hideredirects = false ) {
 		$output = $this->getOutput();
 
 		$fromList = $this->getNamespaceKeyAndText( $namespace, $from );
